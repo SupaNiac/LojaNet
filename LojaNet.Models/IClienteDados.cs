@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace LojaNet.Models
 {
+
     public interface IClienteDados
     {
         void Incluir (Cliente cliente);

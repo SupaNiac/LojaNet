@@ -1,16 +1,17 @@
-﻿using LojaNet.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LojaNet.BLL;
+using LojaNet.DAL;
+using LojaNet.Models;
 
-namespace LojaNet.DAL
+namespace LojaNet.BLL
 {
-    // Cliente: Acesso a Dados
-    // Data Access Layer
-
-    public class ClienteDAL : IClienteDados
+    //Business Logic Layer
+    //Valida as informações de um cliente
+    public class ClienteBLL : IClienteDados
     {
         public void Alterar(Cliente cliente)
         {
@@ -24,7 +25,18 @@ namespace LojaNet.DAL
 
         public void Incluir(Cliente cliente)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(cliente.Name))
+            {
+                throw new ApplicationException("O nome deve ser informado!");
+            }
+            if(string.IsNullOrEmpty(cliente.Id))
+            {
+             // cria um ID caso o cliente não coloque
+                cliente.Id = Guid.NewGuid().ToString();
+            }
+
+            var dal = new ClienteDAL();
+            dal.Incluir(cliente);   
         }
 
         public Cliente ObterPorEmail(string Email)
@@ -43,4 +55,3 @@ namespace LojaNet.DAL
         }
     }
 }
-
